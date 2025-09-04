@@ -7,3 +7,6 @@ body {
   position: relative;
   background: url(img/puyo_4bg.png);
 }
+.puyopuyo {
+  display: none;
+}
