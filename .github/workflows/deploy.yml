@@ -1,0 +1,38 @@
+name: Deploy to Github Pages
+# mainにpushされたときに実行
+on:
+  push:
+    branches: ["main"]
+# GitHub Pagesの権限設定
+permissions:
+  #contents: read リポジトリのコードを読み取る権限
+  contents: read
+  #pages: write GitHub Pagesに公開する権限
+  pages: write
+  #id-token: write デプロイ時に認証用トークンを発行する権限
+  id-token: write
+
+  jobs:
+    deploy:
+      #ワークフローを実行する仮想環境の指定
+      runs-on: ubuntu-latest
+      # ジョブ内で実行する処理の順番（ステップ）の定義
+      steps:
+        - name: Checkout code
+          # name でステップの名前　uses でアクションの指定 （actions/checkout@v4 はリポジトリのコードをチェックアウト(clone)するアクション）
+          uses: actions/checkout@v4
+
+        - name: Setup Pages
+          # GitHub Pagesの設定を行うアクション
+          uses: actions/configure-pages@v4
+
+        - name: Upload artifact
+          # 公開したいファイルを成果物(artifact)としてアップロードするアクション
+          uses: actions/upload-pages-artifact@v4
+          with:
+            # リポジトリ直下なら ./
+            path: ./
+
+        - name: Deploy to GitHub Pages
+          # GitHubPagesにデプロイするアクション
+          uses: actions/deploy-pages@v4
