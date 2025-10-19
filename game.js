@@ -22,12 +22,27 @@ function gameLoop() {
       if (Stage.checkFallingPuyo()) {
         gameState = "fallingPuyo";
       } else {
-        gameState = "";
+        gameState = "checkPuyoErase";
       }
       break;
     case "fallingPuyo":
       if (!Stage.fallPuyo()) {
         gameState = "";
+      }
+      break;
+    case "checkPuyoErase":
+      const eraseInfo = Stage.checkPuyoErase(frame);
+      if (eraseInfo) {
+        gameState = "erasingPuyo";
+        comboCount++;
+      } else {
+        comboCount = 0;
+        gameState = "";
+      }
+      break;
+    case "erasingPuyo":
+      if (!Stage.erasePuyo(frame)) {
+        gameState = "checkFallingPuyo";
       }
       break;
   }
